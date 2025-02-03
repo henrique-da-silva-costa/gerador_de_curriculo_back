@@ -1,0 +1,15 @@
+{
+    "name": "xbox/autenticao",
+    "autoload": {
+        "psr-4": {
+            "app\\": "app"
+        }
+    },
+    "authors": [
+        {
+            "name": "Henrique",
+            "email": "81424965+henrique-da-silva-costa@users.noreply.github.com"
+        }
+    ],
+    "require": {}
+}
