@@ -2,18 +2,21 @@
 
 namespace app\controllers;
 
+use app\models\Usuario;
+
 class UsuarioController
 {
-    public $nome = "Henrique";
 
-    // public function __construct()
-    // {
-    //     $this->nome = "Henrique";
-    // }
+    public $usuario;
 
+    public function __construct()
+    {
+        $this->usuario = new Usuario;
+    }
 
-    // public function pegarNome()
-    // {
-    //     return $this->nome;
-    // }
+    public function pegarTodos()
+    {
+        $usuarios = $this->usuario->pegarTodos();
+        return $usuarios;
+    }
 }
