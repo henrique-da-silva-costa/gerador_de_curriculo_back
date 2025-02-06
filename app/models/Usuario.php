@@ -31,6 +31,33 @@ class Usuario
         }
     }
 
+    public function exsiteUsuario($dados)
+    {
+        try {
+            $this->banco->conectar();
+
+            $email = isset($dados["email"]) ? $dados["email"] : NULL;
+            $senha = isset($dados["senha"]) ? $dados["senha"] : NULL;
+
+            $existeEmail = $this->existeEmail($dados);
+
+            if (password_verify($senha, $existeEmail["senha"])) {
+                $senha = $existeEmail["senha"];
+            }
+
+            $sql = "SELECT nome, email FROM usuario WHERE email = :email AND senha = :senha";
+            $stmt = $this->banco->conexao->prepare($sql);
+            $stmt->bindParam(":email", $email, PDO::PARAM_STR);
+            $stmt->bindParam(":senha", $senha, PDO::PARAM_STR);
+            $stmt->execute();
+            $dados = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            return $dados;
+        } catch (\Throwable $th) {
+            return NULL;
+        }
+    }
+
     public function existeEmail($dados)
     {
         try {
@@ -39,15 +66,15 @@ class Usuario
             $email = isset($dados["email"]) ? $dados["email"] : NULL;
             $id = isset($dados["id"]) ? $dados["id"] : 0;
 
-            $sql = "SELECT email FROM usuario WHERE email = :email AND id != :id";
+            $sql = "SELECT email, senha FROM usuario WHERE email = :email AND id <> :id";
             $stmt = $this->banco->conexao->prepare($sql);
             $stmt->bindParam(":email", $email, PDO::PARAM_STR);
             $stmt->bindParam(":id", $id, PDO::PARAM_INT);
             $stmt->execute();
-            $dados = $stmt->fetch(PDO::FETCH_ASSOC);
+            $dado = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if (count($dados) > 0) {
-                return TRUE;
+            if (count($dado) > 0) {
+                return $dado;
             }
 
             return FALSE;
@@ -60,19 +87,22 @@ class Usuario
     {
         try {
             $this->banco->conectar();
+
             $resposta = new stdClass;
             $resposta->erro = FALSE;
             $resposta->msg = NULL;
 
             $nome = isset($dados["nome"]) ? $dados["nome"] : NULL;
             $email = isset($dados["email"]) ? $dados["email"] : NULL;
-            $senha = isset($dados["senha"]) ? $dados["senha"] : NULL;
+            $senha = isset($dados["senha"]) ? password_hash($dados["senha"], PASSWORD_DEFAULT) : NULL;
+            $img = isset($dados["img"]) ? $dados["img"] : NULL;
 
-            $sql = "INSERT INTO usuario (nome,email,senha) VALUES (:nome,:email,:senha)";
+            $sql = "INSERT INTO usuario (nome,email,senha,img) VALUES (:nome,:email,:senha,:img)";
             $stmt = $this->banco->conexao->prepare($sql);
             $stmt->bindParam(":nome", $nome, PDO::PARAM_STR);
             $stmt->bindParam(":email", $email, PDO::PARAM_STR);
             $stmt->bindParam(":senha", $senha, PDO::PARAM_STR);
+            $stmt->bindParam(":img", $img, PDO::PARAM_STR);
             $stmt->execute();
 
             $dados = $stmt->fetchAll();
@@ -98,18 +128,20 @@ class Usuario
             $id = isset($dados["id"]) ? $dados["id"] : NULL;
             $nome = isset($dados["nome"]) ? $dados["nome"] : NULL;
             $email = isset($dados["email"]) ? $dados["email"] : NULL;
-            $senha = isset($dados["senha"]) ? $dados["senha"] : NULL;
+            $senha = isset($dados["senha"]) ? password_hash($dados["senha"], PASSWORD_DEFAULT) : NULL;
+            $img = isset($dados["img"]) ? $dados["img"] : NULL;
 
             if (!is_numeric($id)) {
                 return;
             }
 
-            $sql = "UPDATE usuario SET nome = :nome, email = :email, senha = :senha WHERE id = :id";
+            $sql = "UPDATE usuario SET nome = :nome, email = :email, senha = :senha , img = :img WHERE id = :id";
             $stmt = $this->banco->conexao->prepare($sql);
             $stmt->bindParam(":nome", $nome, PDO::PARAM_STR);
             $stmt->bindParam(":email", $email, PDO::PARAM_STR);
             $stmt->bindParam(":senha", $senha, PDO::PARAM_STR);
             $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+            $stmt->bindParam(":img", $img, PDO::PARAM_STR);
             $stmt->execute();
 
             return $resposta;

@@ -8,7 +8,7 @@ $router = new Rotas();
 $router->get('/', function () {
     $usuario = new UsuarioController();
 
-    return print_r(json_encode($usuario->pegarTodos()));
+    return $usuario->pegarTodos();
 });
 
 $router->post('/cadastrar', function () {
@@ -19,6 +19,11 @@ $router->post('/cadastrar', function () {
 $router->post('/editar', function () {
     $usuario = new UsuarioController();
     return $usuario->editar();
+});
+
+$router->post('/login', function () {
+    $usuario = new UsuarioController();
+    return $usuario->login();
 });
 
 $router->delete('/excluir', function () {
