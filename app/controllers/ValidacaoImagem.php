@@ -15,7 +15,7 @@ class ValidacaoImagem
         }
 
         // Verifica se um arquivo foi enviado
-        if (isset($_FILES["img"])) {
+        if (isset($_FILES["img"]) && strlen($_FILES["img"]["name"]) > 0) {
             $nomeArquivo = basename($arquivo["name"]);
             $caminhoFinal = $diretorio . $nomeArquivo;
 
@@ -23,7 +23,7 @@ class ValidacaoImagem
             $tipoArquivo = strtolower(pathinfo($caminhoFinal, PATHINFO_EXTENSION));
             $tiposPermitidos = ["jpg", "jpeg", "png", "gif"];
 
-            if (!in_array($tipoArquivo, $tiposPermitidos)) {
+            if ($nomeArquivo && !in_array($tipoArquivo, $tiposPermitidos)) {
                 return ["erro" => TRUE, "msg" => "Apenas arquivos JPG, JPEG, PNG e GIF são permitidos."];
             }
 
@@ -39,7 +39,7 @@ class ValidacaoImagem
                 return ["erro" => TRUE, "msg" => "Erro ao enviar o arquivo."];
             }
         } else {
-            return ["erro" => TRUE, "msg" => "Nenhum arquivo foi enviado."];
+            return ["erro" => FALSE, "msg" => "Nenhum arquivo foi enviado."];
         }
     }
 }

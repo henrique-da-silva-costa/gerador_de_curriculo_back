@@ -26,6 +26,11 @@ $router->post('/login', function () {
     return $usuario->login();
 });
 
+$router->post('/recuperarsenha', function () {
+    $usuario = new UsuarioController();
+    return $usuario->recuperarSenha();
+});
+
 $router->delete('/excluir', function () {
     $usuario = new UsuarioController();
     return $usuario->editar();

@@ -23,6 +23,13 @@ class UsuarioController
 
     public function login()
     {
+
+        // $this->request["email"]
+
+        if (Validacao::validar($this->request)) {
+            return;
+        }
+
         $usuario = $this->usuario->exsiteUsuario($this->request);
 
         if (!$usuario) {
@@ -30,6 +37,40 @@ class UsuarioController
         }
 
         return print_r(json_encode($usuario));
+    }
+
+    public function recuperarSenha()
+    {
+        // if (Validacao::validar($this->request)) {
+        //     return;
+        // }
+
+        $existeEmail = $this->usuario->existeEmail($this->request);
+
+        if (!$existeEmail) {
+            return print_r(json_encode(["erro" => TRUE, "msg" => "esse email não existe"]));
+        }
+
+        $existeSenha = $this->usuario->existeSenha($this->request);
+
+        if (!$existeSenha) {
+            return print_r(json_encode(["erro" => TRUE, "msg" => "essa senha não existe"]));
+        }
+
+        $recuperarSenha = $this->usuario->recuperarSenha($this->request);
+
+        if ($recuperarSenha->erro) {
+            return print_r(json_encode(["erro" => TRUE, "msg" => $recuperarSenha->msg]));
+        }
+
+        $novaSenha = isset($this->request["novaSenha"]) ? $this->request["novaSenha"] : NULL;
+        $comfirmaSenha = isset($this->request["confirmaSenha"]) ? $this->request["confirmaSenha"] : NULL;
+
+        if ($novaSenha != $comfirmaSenha) {
+            return print_r(json_encode(["erro" => TRUE, "msg" => "as senha não são iguais"]));
+        }
+
+        return print_r(json_encode(["erro" => FALSE, "msg" => "senha recuperada com sucesso"]));
     }
 
     public function cadastrar()
@@ -49,11 +90,11 @@ class UsuarioController
         $imgCaminho = ValidacaoImagem::validar($img);
 
         if ($imgCaminho["erro"]) {
-            print_r(json_encode($imgCaminho));
+            return print_r(json_encode($imgCaminho));
         }
 
         foreach ($this->request as $valor) {
-            $imgCaminho["erro"] ? $this->request["img"] = NULL : $this->request["img"] = $imgCaminho["msg"];
+            $this->request["img"] = $imgCaminho["msg"];
         }
 
         $cadastrar = $this->usuario->cadastrar($this->request);
@@ -61,7 +102,7 @@ class UsuarioController
             return print_r(json_encode(["erro" => TRUE, "msg" => $cadastrar->msg]));
         }
 
-        return;
+        return print_r(json_encode(["erro" => FALSE, "msg" => "cadastro realizado com sucesso"]));
     }
 
     public function editar()
@@ -87,7 +128,7 @@ class UsuarioController
         $imgCaminho = ValidacaoImagem::validar($img);
 
         if ($imgCaminho["erro"]) {
-            print_r(json_encode($imgCaminho));
+            return print_r(json_encode($imgCaminho));
         }
 
         foreach ($this->request as $valor) {
@@ -99,7 +140,7 @@ class UsuarioController
             return print_r(json_encode(["erro" => TRUE, "msg" => $editar->msg]));
         }
 
-        return;
+        return print_r(json_encode(["erro" => FALSE, "msg" => "edição realizada com sucesso"]));
     }
 
     public function excluir()

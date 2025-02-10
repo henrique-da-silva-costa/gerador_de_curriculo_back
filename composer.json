@@ -11,5 +11,7 @@
             "email": "81424965+henrique-da-silva-costa@users.noreply.github.com"
         }
     ],
-    "require": {}
+    "require": {
+        "firebase/php-jwt": "^6.11"
+    }
 }

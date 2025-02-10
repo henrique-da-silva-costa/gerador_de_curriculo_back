@@ -41,6 +41,10 @@ class Usuario
 
             $existeEmail = $this->existeEmail($dados);
 
+            if (!$existeEmail) {
+                return FALSE;
+            }
+
             if (password_verify($senha, $existeEmail["senha"])) {
                 $senha = $existeEmail["senha"];
             }
@@ -80,6 +84,62 @@ class Usuario
             return FALSE;
         } catch (\Throwable $th) {
             return [];
+        }
+    }
+
+    public function existeSenha($dados)
+    {
+        try {
+            $this->banco->conectar();
+
+            $senha = isset($dados["senha"]) ? $dados["senha"] : NULL;
+
+            $existeEmail = $this->existeEmail($dados);
+
+            if (password_verify($senha, $existeEmail["senha"])) {
+                $senha = $existeEmail["senha"];
+            }
+
+            $sql = "SELECT senha FROM usuario WHERE senha = :senha";
+            $stmt = $this->banco->conexao->prepare($sql);
+            $stmt->bindParam(":senha", $senha, PDO::PARAM_STR);
+            $stmt->execute();
+            $dado = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (count($dado) > 0) {
+                return TRUE;
+            }
+
+            return FALSE;
+        } catch (\Throwable $th) {
+            return [];
+        }
+    }
+
+    public function recuperarSenha($dados)
+    {
+        try {
+            $this->banco->conectar();
+            $resposta = new stdClass;
+            $resposta->erro = FALSE;
+            $resposta->msg = NULL;
+
+            $email = isset($dados["email"]) ? $dados["email"] : NULL;
+            $novaSenha = isset($dados["novaSenha"]) ? password_hash($dados["novaSenha"], PASSWORD_DEFAULT) : NULL;
+
+            $sql = "UPDATE usuario SET senha = :senha WHERE email = :email";
+            $stmt = $this->banco->conexao->prepare($sql);
+            $stmt->bindParam(":email", $email, PDO::PARAM_STR);
+            $stmt->bindParam(":senha", $novaSenha, PDO::PARAM_STR);
+            $stmt->execute();
+
+            return $resposta;
+        } catch (\Throwable $th) {
+            $resposta = new stdClass;
+            $resposta->erro = TRUE;
+            $resposta->msg = $th->getMessage();
+
+            return $resposta;
         }
     }
 
