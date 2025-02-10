@@ -2,6 +2,11 @@
 
 namespace app\controllers;
 
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+header('Access-Control-Allow-Headers: Origin, Accept, AccountKey, X-Requested-With, Content-Type, Authorization, Client-Security-Token, Host, Date, Cookie, Cookie2');
+header('Access-Control-Allow-Credentials: true');
+
 use app\models\Usuario;
 
 class UsuarioController
@@ -21,10 +26,22 @@ class UsuarioController
         return print_r(json_encode($usuarios));
     }
 
-    public function login()
+    public function verificarToken()
     {
 
-        // $this->request["email"]
+        header('Access-Control-Allow-Origin: *');
+        header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
+        header('Access-Control-Allow-Headers: Origin, Accept, AccountKey, X-Requested-With, Content-Type, Authorization');
+        header('Access-Control-Allow-Credentials: true');
+
+        print_r(json_encode(["erro" => FALSE]));
+    }
+
+    public function login()
+    {
+        $email = isset($this->request["email"]) ? $this->request["email"] : NULL;
+
+        $auth = new AutenticacaoJwt;
 
         if (Validacao::validar($this->request)) {
             return;
@@ -34,6 +51,10 @@ class UsuarioController
 
         if (!$usuario) {
             return print_r(json_encode(["erro" => TRUE, "msg" => "e-mail ou senha incorreto"]));
+        }
+
+        foreach ($usuario as $dado) {
+            $usuario["env"] = $auth->generateToken($email);
         }
 
         return print_r(json_encode($usuario));
@@ -71,6 +92,21 @@ class UsuarioController
         }
 
         return print_r(json_encode(["erro" => FALSE, "msg" => "senha recuperada com sucesso"]));
+    }
+
+    public function verificaremail()
+    {
+        // if (Validacao::validar($this->request)) {
+        //     return;
+        // }
+
+        $existeEmail = $this->usuario->existeEmail($this->request);
+
+        if (!$existeEmail) {
+            return print_r(json_encode(["erro" => TRUE, "msg" => "Esse email não existe"]));
+        }
+
+        return print_r(json_encode(["erro" => FALSE]));
     }
 
     public function cadastrar()
