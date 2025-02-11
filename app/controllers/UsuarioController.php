@@ -2,12 +2,10 @@
 
 namespace app\controllers;
 
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
-header('Access-Control-Allow-Headers: Origin, Accept, AccountKey, X-Requested-With, Content-Type, Authorization, Client-Security-Token, Host, Date, Cookie, Cookie2');
-header('Access-Control-Allow-Credentials: true');
-
 use app\models\Usuario;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use Dotenv\Dotenv;
 
 class UsuarioController
 {
@@ -26,23 +24,8 @@ class UsuarioController
         return print_r(json_encode($usuarios));
     }
 
-    public function verificarToken()
-    {
-
-        header('Access-Control-Allow-Origin: *');
-        header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE');
-        header('Access-Control-Allow-Headers: Origin, Accept, AccountKey, X-Requested-With, Content-Type, Authorization');
-        header('Access-Control-Allow-Credentials: true');
-
-        print_r(json_encode(["erro" => FALSE]));
-    }
-
     public function login()
     {
-        $email = isset($this->request["email"]) ? $this->request["email"] : NULL;
-
-        $auth = new AutenticacaoJwt;
-
         if (Validacao::validar($this->request)) {
             return;
         }
@@ -51,10 +34,6 @@ class UsuarioController
 
         if (!$usuario) {
             return print_r(json_encode(["erro" => TRUE, "msg" => "e-mail ou senha incorreto"]));
-        }
-
-        foreach ($usuario as $dado) {
-            $usuario["env"] = $auth->generateToken($email);
         }
 
         return print_r(json_encode($usuario));
@@ -193,5 +172,48 @@ class UsuarioController
         }
 
         return print_r(json_encode(["erro" => FALSE]));
+    }
+
+    public function gerarPdf()
+    {
+        // reference the Dompdf namespace
+
+        // instantiate and use the dompdf class
+        $options = new Options();
+        $options->set('defaultFont', 'arial');
+        $dompdf = new Dompdf($options);
+
+        $dompdf->loadHtml(
+
+
+            "
+        <style>
+body{
+    font-family: Arial, sans-serif;
+}
+
+        h1 {
+            color: red;
+        }
+        </style>
+        
+        <body>
+            <h1>Henrique</h1>
+            <p>25</p>
+            <p>henrique@live.com</p>
+        </body>
+        "
+
+        );
+
+        // (Optional) Setup the paper size and orientation
+        $dompdf->setPaper('A4', 'landscape');
+
+        // Render the HTML as PDF
+        $dompdf->render();
+
+        // Output the generated PDF to Browser
+        // $dompdf->stream("preview.pdf", ["Attachment" => false]);
+        $dompdf->stream();
     }
 }

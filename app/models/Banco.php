@@ -4,10 +4,10 @@ namespace app\models;
 
 use PDO;
 
-header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Authorization, Origin, Accept, AccountKey, X-Requested-With, Content-Type, Client-Security-Token, Host, Date, Cookie, Cookie2");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Credentials: true");
-header('Access-Control-Allow-Methods: GET,POST,PUT,DELETE');
-header("Access-Control-Allow-Headers: Origin,Accept,AccountKey,x-requested-with, Content-Type, origin, authorization, accept, client-security-token, host, date, cookie, cookie2");
 
 class Banco
 {
