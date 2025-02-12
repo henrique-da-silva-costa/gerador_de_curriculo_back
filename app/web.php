@@ -41,13 +41,4 @@ $router->delete('/excluir', function () {
     return $usuario->editar();
 });
 
-$router->get('/pdf', function () {
-    $usuario = new UsuarioController();
-    $usuario->gerarPdf();
-});
-
-$router->get('/html', function () {
-    require("../public/pdf.php");
-});
-
 return $router;

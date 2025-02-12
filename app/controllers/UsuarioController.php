@@ -6,6 +6,7 @@ use app\models\Usuario;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Dotenv\Dotenv;
+use TCPDF;
 
 class UsuarioController
 {
@@ -172,48 +173,5 @@ class UsuarioController
         }
 
         return print_r(json_encode(["erro" => FALSE]));
-    }
-
-    public function gerarPdf()
-    {
-        // reference the Dompdf namespace
-
-        // instantiate and use the dompdf class
-        $options = new Options();
-        $options->set('defaultFont', 'arial');
-        $dompdf = new Dompdf($options);
-
-        $dompdf->loadHtml(
-
-
-            "
-        <style>
-body{
-    font-family: Arial, sans-serif;
-}
-
-        h1 {
-            color: red;
-        }
-        </style>
-        
-        <body>
-            <h1>Henrique</h1>
-            <p>25</p>
-            <p>henrique@live.com</p>
-        </body>
-        "
-
-        );
-
-        // (Optional) Setup the paper size and orientation
-        $dompdf->setPaper('A4', 'landscape');
-
-        // Render the HTML as PDF
-        $dompdf->render();
-
-        // Output the generated PDF to Browser
-        // $dompdf->stream("preview.pdf", ["Attachment" => false]);
-        $dompdf->stream();
     }
 }
