@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use app\controllers\Tabelas;
 use app\models\Banco;
 use PDO;
 use stdClass;
@@ -9,10 +10,12 @@ use stdClass;
 class Usuario
 {
     public $banco;
+    public $tabela;
 
     public function __construct()
     {
         $this->banco = new Banco;
+        $this->tabela = Tabelas::USUARIO;
     }
 
     public function pegarTodos()
@@ -20,7 +23,7 @@ class Usuario
         try {
             $this->banco->conectar();
 
-            $sql = "SELECT * FROM usuario";
+            $sql = "SELECT * FROM {$this->tabela}";
             $stmt = $this->banco->conexao->prepare($sql);
             $stmt->execute();
             $dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -49,7 +52,7 @@ class Usuario
                 $senha = $existeEmail["senha"];
             }
 
-            $sql = "SELECT nome, email FROM usuario WHERE email = :email AND senha = :senha";
+            $sql = "SELECT nome, email, id FROM {$this->tabela} WHERE email = :email AND senha = :senha";
             $stmt = $this->banco->conexao->prepare($sql);
             $stmt->bindParam(":email", $email, PDO::PARAM_STR);
             $stmt->bindParam(":senha", $senha, PDO::PARAM_STR);
@@ -70,7 +73,7 @@ class Usuario
             $email = isset($dados["email"]) ? $dados["email"] : NULL;
             $id = isset($dados["id"]) ? $dados["id"] : 0;
 
-            $sql = "SELECT email, senha FROM usuario WHERE email = :email AND id <> :id";
+            $sql = "SELECT email, senha FROM {$this->tabela} WHERE email = :email AND id <> :id";
             $stmt = $this->banco->conexao->prepare($sql);
             $stmt->bindParam(":email", $email, PDO::PARAM_STR);
             $stmt->bindParam(":id", $id, PDO::PARAM_INT);
@@ -100,7 +103,7 @@ class Usuario
                 $senha = $existeEmail["senha"];
             }
 
-            $sql = "SELECT senha FROM usuario WHERE senha = :senha";
+            $sql = "SELECT senha FROM {$this->tabela} WHERE senha = :senha";
             $stmt = $this->banco->conexao->prepare($sql);
             $stmt->bindParam(":senha", $senha, PDO::PARAM_STR);
             $stmt->execute();
@@ -127,7 +130,7 @@ class Usuario
             $email = isset($dados["email"]) ? $dados["email"] : NULL;
             $novaSenha = isset($dados["novaSenha"]) ? password_hash($dados["novaSenha"], PASSWORD_DEFAULT) : NULL;
 
-            $sql = "UPDATE usuario SET senha = :senha WHERE email = :email";
+            $sql = "UPDATE {$this->tabela} SET senha = :senha WHERE email = :email";
             $stmt = $this->banco->conexao->prepare($sql);
             $stmt->bindParam(":email", $email, PDO::PARAM_STR);
             $stmt->bindParam(":senha", $novaSenha, PDO::PARAM_STR);
@@ -157,7 +160,7 @@ class Usuario
             $senha = isset($dados["senha"]) ? password_hash($dados["senha"], PASSWORD_DEFAULT) : NULL;
             $img = isset($dados["img"]) ? $dados["img"] : NULL;
 
-            $sql = "INSERT INTO usuario (nome,email,senha,img) VALUES (:nome,:email,:senha,:img)";
+            $sql = "INSERT INTO {$this->tabela} (nome,email,senha,img) VALUES (:nome,:email,:senha,:img)";
             $stmt = $this->banco->conexao->prepare($sql);
             $stmt->bindParam(":nome", $nome, PDO::PARAM_STR);
             $stmt->bindParam(":email", $email, PDO::PARAM_STR);
@@ -195,7 +198,7 @@ class Usuario
                 return;
             }
 
-            $sql = "UPDATE usuario SET nome = :nome, email = :email, senha = :senha , img = :img WHERE id = :id";
+            $sql = "UPDATE {$this->tabela} SET nome = :nome, email = :email, senha = :senha , img = :img WHERE id = :id";
             $stmt = $this->banco->conexao->prepare($sql);
             $stmt->bindParam(":nome", $nome, PDO::PARAM_STR);
             $stmt->bindParam(":email", $email, PDO::PARAM_STR);
@@ -228,7 +231,7 @@ class Usuario
                 return;
             }
 
-            $sql = "DELETE FROM usuario WHERE id = :id";
+            $sql = "DELETE FROM {$this->tabela} WHERE id = :id";
             $stmt = $this->banco->conexao->prepare($sql);
             $stmt->bindParam(":id", $id, PDO::PARAM_INT);
             $stmt->execute();

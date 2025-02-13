@@ -3,10 +3,6 @@
 namespace app\controllers;
 
 use app\models\Usuario;
-use Dompdf\Dompdf;
-use Dompdf\Options;
-use Dotenv\Dotenv;
-use TCPDF;
 
 class UsuarioController
 {
