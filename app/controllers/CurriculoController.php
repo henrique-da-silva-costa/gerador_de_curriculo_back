@@ -21,15 +21,23 @@ class CurriculoController
         return print_r(json_encode($usuarios));
     }
 
-    public function pegarPorId()
+    public function pegarPorUsuarioId($usuario_id)
     {
-        $id = isset($this->request["id"]) ? $this->request["id"] : NULL;
+        if (!is_numeric($usuario_id)) {
+            return print_r(json_encode(["erro" => TRUE, "msg" => "Curriculo não encontrado"]));
+        }
 
+        $usuario = $this->curriculo->pegarPorUsuarioId($usuario_id);
+        return print_r(json_encode($usuario));
+    }
+
+    public function pegarPorId($id)
+    {
         if (!is_numeric($id)) {
             return print_r(json_encode(["erro" => TRUE, "msg" => "Curriculo não encontrado"]));
         }
 
-        $usuario = $this->curriculo->pegarPorId($this->request);
+        $usuario = $this->curriculo->pegarPorId($id);
         return print_r(json_encode($usuario));
     }
 
@@ -42,15 +50,15 @@ class CurriculoController
             return;
         }
 
-        // $imgCaminho = ValidacaoImagem::validar($img);
+        $imgCaminho = ValidacaoImagem::validar($img);
 
-        // if ($imgCaminho["erro"]) {
-        //     return print_r(json_encode($imgCaminho));
-        // }
+        if ($imgCaminho["erro"]) {
+            return print_r(json_encode($imgCaminho));
+        }
 
-        // foreach ($this->request as $valor) {
-        //     $this->request["img"] = $imgCaminho["msg"];
-        // }
+        foreach ($this->request as $valor) {
+            $this->request["img"] = $imgCaminho["msg"];
+        }
 
         $cadastrar = $this->curriculo->cadastrar($this->request);
         if ($cadastrar->erro) {

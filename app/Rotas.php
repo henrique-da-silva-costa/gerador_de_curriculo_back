@@ -21,30 +21,46 @@ class Rotas
         $this->routes["POST"][$route] = $callback;
     }
 
-    public function delete($route, $callback)
+    public function deletar($route, $callback)
     {
         $this->routes["DELETE"][$route] = $callback;
     }
 
     public function dispatch($requestUri, $requestMethod)
     {
-        $requestUri = parse_url($requestUri, PHP_URL_PATH);
+        // Verifica se há rotas para o método de requisição atual
+        if (!isset($this->routes[$requestMethod])) {
+            http_response_code(405); // Método não permitido
+            echo json_encode("Método não permitido");
+            return;
+        }
 
-        if (isset($this->routes[$requestMethod][$requestUri])) {
-            $callback = $this->routes[$requestMethod][$requestUri];
+        // Itera sobre todas as rotas para o método de requisição atual
+        foreach ($this->routes[$requestMethod] as $route => $callback) {
+            // Transforma a rota em uma expressão regular
+            $routeRegex = preg_replace('/\{(\w+)\}/', '([a-zA-Z0-9-_]+)', $route);
+            $routeRegex = str_replace('/', '\/', $routeRegex);
+            $routeRegex = "/^" . $routeRegex . "$/";
 
-            if (is_callable($callback)) {
-                return call_user_func($callback);
-            } elseif (is_string($callback)) {
-                $this->loadController($callback);
+            // Verifica se a URI corresponde ao padrão da rota
+            if (preg_match($routeRegex, $requestUri, $matches)) {
+                array_shift($matches); // Remove o primeiro item (a string completa)
+
+                // Se for uma função anônima, passa os parâmetros
+                if (is_callable($callback)) {
+                    return call_user_func_array($callback, $matches);
+                } elseif (is_string($callback)) {
+                    return $this->loadControllerWithParams($callback, $matches);
+                }
             }
         }
 
+        // Se nenhuma rota foi encontrada, retorna 404
         http_response_code(404);
-        echo "404 - Página não encontrada";
+        echo json_encode("Página não encontrada");
     }
 
-    private function loadController($controller)
+    private function loadControllerWithParams($controller, $params)
     {
         [$class, $method] = explode("@", $controller);
         $class = "App\\Controllers\\$class";
@@ -52,11 +68,11 @@ class Rotas
         if (class_exists($class)) {
             $instance = new $class();
             if (method_exists($instance, $method)) {
-                return call_user_func([$instance, $method]);
+                return call_user_func_array([$instance, $method], $params);
             }
         }
 
         http_response_code(500);
-        echo "Erro no controlador";
+        echo json_encode("Erro no controlador");
     }
 }

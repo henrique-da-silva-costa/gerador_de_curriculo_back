@@ -3,13 +3,22 @@
         'name' => 'xbox/autenticao',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => 'ba003a3ca6d2465ac2dd44d98a5caa992c08ad46',
+        'reference' => 'b343fc30ef3df1d8b0744bad3ffc95d6ea1056a3',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
         'dev' => true,
     ),
     'versions' => array(
+        'altorouter/altorouter' => array(
+            'pretty_version' => '2.0.3',
+            'version' => '2.0.3.0',
+            'reference' => '9931b976423f7334c94f7b5b348be8ab1da3415d',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../altorouter/altorouter',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'dompdf/dompdf' => array(
             'pretty_version' => 'v3.1.0',
             'version' => '3.1.0.0',
@@ -139,7 +148,7 @@
         'xbox/autenticao' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => 'ba003a3ca6d2465ac2dd44d98a5caa992c08ad46',
+            'reference' => 'b343fc30ef3df1d8b0744bad3ffc95d6ea1056a3',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

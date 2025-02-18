@@ -5,7 +5,6 @@ namespace app\controllers;
 class ValidacaoCurriculo
 {
 
-
     public static function validar($dados)
     {
         if (!is_array($dados)) {
