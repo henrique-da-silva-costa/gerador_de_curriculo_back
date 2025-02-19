@@ -42,7 +42,7 @@ class Usuario
             $email = isset($dados["email"]) ? $dados["email"] : NULL;
             $senha = isset($dados["senha"]) ? $dados["senha"] : NULL;
 
-            $existeEmail = $this->existeEmail($dados);
+            $existeEmail = $this->existeEmail($dados, $email);
 
             if (!$existeEmail) {
                 return FALSE;
@@ -52,7 +52,7 @@ class Usuario
                 $senha = $existeEmail["senha"];
             }
 
-            $sql = "SELECT nome, email, id FROM {$this->tabela} WHERE email = :email AND senha = :senha";
+            $sql = "SELECT nome, email, id, img FROM {$this->tabela} WHERE email = :email AND senha = :senha";
             $stmt = $this->banco->conexao->prepare($sql);
             $stmt->bindParam(":email", $email, PDO::PARAM_STR);
             $stmt->bindParam(":senha", $senha, PDO::PARAM_STR);
@@ -65,12 +65,16 @@ class Usuario
         }
     }
 
-    public function existeEmail($dados)
+    public function existeEmail($dados, $emailLogin = NULL)
     {
         try {
             $this->banco->conectar();
 
-            $email = isset($dados["email"]) ? $dados["email"] : NULL;
+            $email = isset($dados["emailVerificar"]) ? $dados["emailVerificar"] : NULL;
+            if ($emailLogin) {
+                $email = $emailLogin;
+            }
+
             $id = isset($dados["id"]) ? $dados["id"] : 0;
 
             $sql = "SELECT email, senha FROM {$this->tabela} WHERE email = :email AND id <> :id";
@@ -80,13 +84,13 @@ class Usuario
             $stmt->execute();
             $dado = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if (count($dado) > 0) {
+            if ($dado) {
                 return $dado;
             }
 
             return FALSE;
         } catch (\Throwable $th) {
-            return [];
+            return NULL;
         }
     }
 
@@ -99,7 +103,7 @@ class Usuario
 
             $existeEmail = $this->existeEmail($dados);
 
-            if (password_verify($senha, $existeEmail["senha"])) {
+            if ($existeEmail && password_verify($senha, $existeEmail["senha"])) {
                 $senha = $existeEmail["senha"];
             }
 
@@ -109,13 +113,13 @@ class Usuario
             $stmt->execute();
             $dado = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            if (count($dado) > 0) {
+            if ($dado) {
                 return TRUE;
             }
 
             return FALSE;
         } catch (\Throwable $th) {
-            return [];
+            return NULL;
         }
     }
 
@@ -127,7 +131,7 @@ class Usuario
             $resposta->erro = FALSE;
             $resposta->msg = NULL;
 
-            $email = isset($dados["email"]) ? $dados["email"] : NULL;
+            $email = isset($dados["emailVerificar"]) ? $dados["emailVerificar"] : NULL;
             $novaSenha = isset($dados["novaSenha"]) ? password_hash($dados["novaSenha"], PASSWORD_DEFAULT) : NULL;
 
             $sql = "UPDATE {$this->tabela} SET senha = :senha WHERE email = :email";
@@ -158,7 +162,7 @@ class Usuario
             $nome = isset($dados["nome"]) ? $dados["nome"] : NULL;
             $email = isset($dados["email"]) ? $dados["email"] : NULL;
             $senha = isset($dados["senha"]) ? password_hash($dados["senha"], PASSWORD_DEFAULT) : NULL;
-            $img = isset($dados["img"]) ? "http://localhost:1999/uploads/" . $dados["img"] : NULL;
+            $img = isset($dados["img"]) ? "http://localhost:1999/" . $dados["img"] : NULL;
 
             $sql = "INSERT INTO {$this->tabela} (nome,email,senha,img) VALUES (:nome,:email,:senha,:img)";
             $stmt = $this->banco->conexao->prepare($sql);

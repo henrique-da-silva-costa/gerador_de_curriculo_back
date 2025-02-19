@@ -70,33 +70,26 @@ class CurriculoController
 
     public function editar()
     {
-        // if (Validacao::validar($this->request)) {
-        //     return;
-        // }
-
-        // $img = isset($_FILES["img"]) ? $_FILES["img"] : NULL;
-
+        $img = isset($_FILES["img"]) ? $_FILES["img"] : NULL;
         $id = isset($this->request["id"]) ? $this->request["id"] : NULL;
+
+        if (ValidacaoCurriculo::validar($this->request)) {
+            return;
+        }
+
+        $imgCaminho = ValidacaoImagem::validar($img);
+
+        if ($imgCaminho["erro"]) {
+            return print_r(json_encode($imgCaminho));
+        }
+
+        foreach ($this->request as $valor) {
+            $this->request["img"] = $imgCaminho["msg"];
+        }
 
         if (!is_numeric($id)) {
             return print_r(json_encode(["erro" => TRUE, "msg" => "Usuario não encontrado"]));
         }
-
-        // $existe = $this->curriculo->existeEmail($this->request);
-
-        // if ($existe) {
-        //     return print_r(json_encode(["erro" => TRUE, "msg" => "email já existe"]));
-        // }
-
-        // $imgCaminho = ValidacaoImagem::validar($img);
-
-        // if ($imgCaminho["erro"]) {
-        //     return print_r(json_encode($imgCaminho));
-        // }
-
-        // foreach ($this->request as $valor) {
-        //     $imgCaminho["erro"] ? $this->request["img"] = NULL : $this->request["img"] = $imgCaminho["msg"];
-        // }
 
         $editar = $this->curriculo->editar($this->request);
         if ($editar->erro) {

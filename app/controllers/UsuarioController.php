@@ -38,9 +38,12 @@ class UsuarioController
 
     public function recuperarSenha()
     {
-        // if (Validacao::validar($this->request)) {
-        //     return;
-        // }
+        if (Validacao::validar($this->request)) {
+            return;
+        }
+
+        $novaSenha = isset($this->request["novaSenha"]) ? $this->request["novaSenha"] : NULL;
+        $comfirmaSenha = isset($this->request["confirmaSenha"]) ? $this->request["confirmaSenha"] : NULL;
 
         $existeEmail = $this->usuario->existeEmail($this->request);
 
@@ -60,9 +63,6 @@ class UsuarioController
             return print_r(json_encode(["erro" => TRUE, "msg" => $recuperarSenha->msg]));
         }
 
-        $novaSenha = isset($this->request["novaSenha"]) ? $this->request["novaSenha"] : NULL;
-        $comfirmaSenha = isset($this->request["confirmaSenha"]) ? $this->request["confirmaSenha"] : NULL;
-
         if ($novaSenha != $comfirmaSenha) {
             return print_r(json_encode(["erro" => TRUE, "msg" => "as senha não são iguais"]));
         }
@@ -72,9 +72,9 @@ class UsuarioController
 
     public function verificaremail()
     {
-        // if (Validacao::validar($this->request)) {
-        //     return;
-        // }
+        if (Validacao::validar($this->request)) {
+            return;
+        }
 
         $existeEmail = $this->usuario->existeEmail($this->request);
 

@@ -18,13 +18,13 @@ class Validacao
         //     return print_r(json_encode(["erro" => TRUE, "msg" => "campo obrigatório"]));
         // }
 
-        if (!isset($dados["email"])) {
-            return print_r(json_encode(["erro" => TRUE, "msg" => "campo obrigatório"]));
-        }
+        // if (!isset($dados["email"])) {
+        //     return print_r(json_encode(["erro" => TRUE, "msg" => "campo obrigatório"]));
+        // }
 
-        if (!isset($dados["senha"])) {
-            return print_r(json_encode(["erro" => TRUE, "msg" => "campo obrigatório"]));
-        }
+        // if (!isset($dados["senha"])) {
+        //     return print_r(json_encode(["erro" => TRUE, "msg" => "campo obrigatório"]));
+        // }
 
         foreach ($dados as $index => $dado) {
             if (strlen($dado) < 1) {

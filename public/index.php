@@ -3,6 +3,11 @@
 use app\controllers\CurriculoController;
 use app\controllers\UsuarioController;
 
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Authorization, Origin, Accept, AccountKey, X-Requested-With, Content-Type, Client-Security-Token, Host, Date, Cookie, Cookie2");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Credentials: true");
+
 require("../vendor/autoload.php");
 
 $router = new AltoRouter();
@@ -17,7 +22,7 @@ $router->map("GET", "/", function () {
     return $usuario->pegarTodos();
 });
 
-$router->map("GET", "/cadastrar", function () {
+$router->map("POST", "/cadastrar", function () {
     $usuario = new UsuarioController();
     return $usuario->cadastrar();
 });

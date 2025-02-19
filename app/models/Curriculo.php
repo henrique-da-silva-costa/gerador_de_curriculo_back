@@ -179,7 +179,7 @@ class Curriculo
             $data_inicio = isset($dados["data_inicio"]) ? $dados["data_inicio"] : NULL;
             $data_fim = isset($dados["data_fim"]) ? $dados["data_fim"] : NULL;
             $usuario_id = isset($dados["usuario_id"]) ? $dados["usuario_id"] : NULL;
-            $img = isset($dados["img"]) ? $dados["img"] : NULL;
+            $img = isset($dados["img"]) ? "http://localhost:1999/" . $dados["img"] : NULL;
 
             if (!is_numeric($id)) {
                 return;
