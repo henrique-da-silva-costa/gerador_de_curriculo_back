@@ -18,7 +18,7 @@ class Curriculo
         $this->tabela = Tabelas::CURRICULO;
     }
 
-    public function pegarPorUsuarioId($usuario_id)
+    public function pegarPorCurriculoPorUsuarioId($usuario_id)
     {
         try {
             $this->banco->conectar();

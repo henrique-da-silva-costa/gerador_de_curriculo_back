@@ -27,11 +27,6 @@ $router->map("POST", "/cadastrar", function () {
     return $usuario->cadastrar();
 });
 
-$router->map("POST", "/editar", function () {
-    $usuario = new UsuarioController();
-    return $usuario->editar();
-});
-
 $router->map("POST", "/login", function () {
     $usuario = new UsuarioController();
     return $usuario->login();
@@ -47,11 +42,6 @@ $router->map("POST", "/verificaremail", function () {
     return $usuario->verificaremail();
 });
 
-$router->map("DELETE", "/excluir", function () {
-    $usuario = new UsuarioController();
-    return $usuario->editar();
-});
-
 // USUÁRIO
 // USUÁRIO
 // USUÁRIO
@@ -63,7 +53,7 @@ $router->map("DELETE", "/excluir", function () {
 $router->map("GET", "/curriculo/[i:usuario_id]", function ($usuario_id) {
     $curriculo = new CurriculoController();
 
-    return $curriculo->pegarPorUsuarioId($usuario_id);
+    return $curriculo->pegarPorCurriculoPorUsuarioId($usuario_id);
 });
 
 $router->map("GET", "/curriculoid/[i:id]", function ($id) {

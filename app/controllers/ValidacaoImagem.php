@@ -39,7 +39,7 @@ class ValidacaoImagem
                 return ["erro" => TRUE, "msg" => "Erro ao enviar o arquivo."];
             }
         } else {
-            return ["erro" => FALSE, "msg" => "Nenhum arquivo foi enviado."];
+            return ["erro" => FALSE, "msg" => NULL];
         }
     }
 }

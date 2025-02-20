@@ -21,13 +21,13 @@ class CurriculoController
         return print_r(json_encode($usuarios));
     }
 
-    public function pegarPorUsuarioId($usuario_id)
+    public function pegarPorCurriculoPorUsuarioId($usuario_id)
     {
         if (!is_numeric($usuario_id)) {
             return print_r(json_encode(["erro" => TRUE, "msg" => "Curriculo não encontrado"]));
         }
 
-        $usuario = $this->curriculo->pegarPorUsuarioId($usuario_id);
+        $usuario = $this->curriculo->pegarPorCurriculoPorUsuarioId($usuario_id);
         return print_r(json_encode($usuario));
     }
 
@@ -40,7 +40,6 @@ class CurriculoController
         $usuario = $this->curriculo->pegarPorId($id);
         return print_r(json_encode($usuario));
     }
-
 
     public function cadastrar()
     {
