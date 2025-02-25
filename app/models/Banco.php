@@ -5,7 +5,7 @@ namespace app\models;
 use PDO;
 
 header("Access-Control-Allow-Origin: *");
-header("Access-Control-Allow-Headers: Authorization, Origin, Accept, AccountKey, X-Requested-With, Content-Type, Client-Security-Token, Host, Date, Cookie, Cookie2");
+header("Access-Control-Allow-Headers: Authorization, Origin,Cache-Control, Pragma , Accept, AccountKey, X-Requested-With, Content-Type, Client-Security-Token, Host, Date, Cookie, Cookie2");
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Credentials: true");
 
@@ -20,9 +20,9 @@ class Banco
     public function __construct()
     {
         $this->host = "localhost";
-        $this->dbname = "usuario";
-        $this->usuario = "root";
-        $this->senha = "";
+        $this->dbname = "u490439394_curriculo";
+        $this->usuario = "u490439394_curriculo";
+        $this->senha = "Henrique1999@";
     }
 
     public function conectar()

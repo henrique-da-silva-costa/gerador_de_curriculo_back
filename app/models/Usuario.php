@@ -162,7 +162,7 @@ class Usuario
             $nome = isset($dados["nome"]) ? $dados["nome"] : NULL;
             $email = isset($dados["email"]) ? $dados["email"] : NULL;
             $senha = isset($dados["senha"]) ? password_hash($dados["senha"], PASSWORD_DEFAULT) : NULL;
-            $img = isset($dados["img"]) ? "http://localhost:1999/" . $dados["img"] : NULL;
+            $img = isset($dados["img"]) ? "https://henriquedeveloper.com.br/" . $dados["img"] : NULL;
 
             $sql = "INSERT INTO {$this->tabela} (nome,email,senha,img) VALUES (:nome,:email,:senha,:img)";
             $stmt = $this->banco->conexao->prepare($sql);
