@@ -18,7 +18,7 @@ class UsuarioController
     public function pegarTodos()
     {
         $usuarios = $this->usuario->pegarTodos();
-        return print_r(json_encode($usuarios));
+        return print_r(json_encode([]));
     }
 
     public function login()
