@@ -27,7 +27,7 @@ class Curriculo
             $paginaAtual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
             $offset = ($paginaAtual - 1) * $porPagina;
 
-            $stmt = $this->banco->conexao->prepare("SELECT * FROM {$this->tabela} WHERE usuario_id = :usuario_id LIMIT :offset, :porPagina");
+            $stmt = $this->banco->conexao->prepare("SELECT * FROM {$this->tabela} WHERE usuario_id = :usuario_id ORDER BY id DESC LIMIT :offset, :porPagina");
             $stmt->bindParam(':usuario_id', $usuario_id, PDO::PARAM_INT);
             $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
             $stmt->bindParam(':porPagina', $porPagina, PDO::PARAM_INT);
