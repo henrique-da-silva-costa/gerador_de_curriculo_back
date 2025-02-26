@@ -15,12 +15,6 @@ class UsuarioController
         $this->request = $_REQUEST;
     }
 
-    public function pegarTodos()
-    {
-        $usuarios = $this->usuario->pegarTodos();
-        return print_r(json_encode($usuarios));
-    }
-
     public function login()
     {
         if (Validacao::validar($this->request)) {

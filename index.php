@@ -17,9 +17,7 @@ $router = new AltoRouter();
 // USUÁRIO
 
 $router->map("GET", "/", function () {
-    $usuario = new UsuarioController();
-
-    return $usuario->pegarTodos();
+    return print_r(json_encode("Pagina inicial"));
 });
 
 $router->map("POST", "/cadastrar", function () {
