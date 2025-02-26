@@ -28,7 +28,7 @@ class Validacao
 
         foreach ($dados as $index => $dado) {
             if (strlen($dado) < 1 && $index != "img") {
-                return print_r(json_encode(["erro" => TRUE, "msg" => "campo vazio $index", "campo" => $index]));
+                return print_r(json_encode(["erro" => TRUE, "msg" => "campo obrigatório", "campo" => $index]));
             }
 
             if ($index == "email" && !preg_match($regex, $dado)) {
