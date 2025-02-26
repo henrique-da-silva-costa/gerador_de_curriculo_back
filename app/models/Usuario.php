@@ -160,7 +160,7 @@ class Usuario
             $resposta->msg = NULL;
 
             $nome = isset($dados["nome"]) ? $dados["nome"] : NULL;
-            $email = isset($dados["email"]) ? $dados["email"] : NULL;
+            $email = isset($dados["emailVerificar"]) ? $dados["emailVerificar"] : NULL;
             $senha = isset($dados["senha"]) ? password_hash($dados["senha"], PASSWORD_DEFAULT) : NULL;
             $img = isset($dados["img"]) ? "https://henriquedeveloper.com.br/" . $dados["img"] : NULL;
 
