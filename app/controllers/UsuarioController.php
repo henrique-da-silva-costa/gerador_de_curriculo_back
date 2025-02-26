@@ -90,7 +90,7 @@ class UsuarioController
         $existe = $this->usuario->existeEmail($this->request);
 
         if ($existe) {
-            return print_r(json_encode(["erro" => TRUE, "msg" => "email já existe"]));
+            return print_r(json_encode(["erro" => TRUE, "msg" => "email já existe", "campo" => "email"]));
         }
 
         $imgCaminho = ValidacaoImagem::validar($img);
