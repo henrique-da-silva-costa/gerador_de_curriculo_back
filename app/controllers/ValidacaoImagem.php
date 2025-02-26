@@ -46,7 +46,11 @@ class ValidacaoImagem
                 $conteudoArquivo = file_get_contents($caminhoFinal);
                 $base64 = "data:image/$tipoArquivo;base64," . base64_encode($conteudoArquivo);
 
-                return ["erro" => FALSE, "msg" => $base64];
+                if ($imgCurriculo) {
+                    return ["erro" => FALSE, "msg" => $base64];
+                }
+
+                return ["erro" => FALSE, "msg" => $caminhoFinal];
             } else {
                 return ["erro" => TRUE, "msg" => "Erro ao enviar o arquivo."];
             }

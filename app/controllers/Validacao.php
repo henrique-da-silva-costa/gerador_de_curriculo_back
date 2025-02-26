@@ -27,7 +27,7 @@ class Validacao
         // }
 
         foreach ($dados as $index => $dado) {
-            if (strlen($dado) < 1) {
+            if (strlen($dado) < 1 && $index != "img") {
                 return print_r(json_encode(["erro" => TRUE, "msg" => "campo vazio $index", "campo" => $index]));
             }
 
