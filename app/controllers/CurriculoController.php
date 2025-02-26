@@ -49,7 +49,7 @@ class CurriculoController
             return;
         }
 
-        $imgCaminho = ValidacaoImagem::validar($img);
+        $imgCaminho = ValidacaoImagem::validar($img, TRUE);
 
         if ($imgCaminho["erro"]) {
             return print_r(json_encode($imgCaminho));
@@ -76,7 +76,7 @@ class CurriculoController
             return;
         }
 
-        $imgCaminho = ValidacaoImagem::validar($img);
+        $imgCaminho = ValidacaoImagem::validar($img, TRUE);
 
         if ($imgCaminho["erro"]) {
             return print_r(json_encode($imgCaminho));
