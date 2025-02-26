@@ -59,14 +59,14 @@ class ValidacaoCurriculo
             }
 
             if ($dataInico->gt($dataFim)) {
-                return print_r(json_encode(["erro" => TRUE, "msg" => "A data de inicio não pode ser maior que a data de final", "campo" => "data_inicio"]));
+                return print_r(json_encode(["erro" => TRUE, "msg" => "A data de inicio não pode ser maior que a data e fdinal", "campo" => "data_inicio"]));
             }
 
             // if ($dataFim < $dataInico->addDays(90)) {
             //     return print_r(json_encode(["erro" => TRUE, "msg" => "A data de inicio não pode ser menor que 3 meses", "campo" => "data_inicio"]));
             // }
 
-            if (strlen($dado) > 255) {
+            if (strlen($dado) > 255 && $index != "img") {
                 return print_r(json_encode(["erro" => TRUE, "msg" => "limite maximo de caracteres 255"]));
             }
         }
