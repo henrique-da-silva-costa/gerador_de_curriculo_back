@@ -48,7 +48,7 @@ class UsuarioController
         $existeSenha = $this->usuario->existeSenha($this->request);
 
         if (!$existeSenha) {
-            return print_r(json_encode(["erro" => TRUE, "msg" => "essa senha não existe"]));
+            return print_r(json_encode(["erro" => TRUE, "msg" => "essa senha não existe", "campo" => "senha"]));
         }
 
         $recuperarSenha = $this->usuario->recuperarSenha($this->request);
