@@ -1,6 +1,7 @@
 <?php
 
 use app\controllers\CurriculoController;
+use app\controllers\ExperienciaController;
 use app\controllers\UsuarioController;
 
 header("Access-Control-Allow-Origin: *");
@@ -85,6 +86,46 @@ $router->map("OPTIONS", "/excluircurriculo", function () {
 // CURRRICULO
 // CURRRICULO
 // CURRRICULO
+
+// CURRRICULO EXPERIENCIAS
+// CURRRICULO EXPERIENCIAS
+// CURRRICULO EXPERIENCIAS
+
+// $router->map("GET", "/experiencias", function () {
+//     $experiencia = new ExperienciaController();
+//     return $experiencia->pegarTodos();
+// });
+
+$router->map("GET", "/experiencias/[i:id]", function ($id) {
+    $experiencia = new ExperienciaController();
+
+    return $experiencia->pegarTodosPorCurriculoId($id);
+});
+
+$router->map("GET", "/experiencia/[i:id]", function ($id) {
+    $experiencia = new ExperienciaController();
+
+    return $experiencia->pegarPorId($id);
+});
+
+$router->map("POST", "/cadastrar/experiencia", function () {
+    $experiencia = new ExperienciaController();
+    return $experiencia->cadastrar();
+});
+
+$router->map("POST", "/editar/experiencia", function () {
+    $experiencia = new ExperienciaController();
+    return $experiencia->editar();
+});
+
+$router->map("OPTIONS", "/excluirexperiencia", function () {
+    $experiencia = new ExperienciaController();
+    return $experiencia->excluir();
+});
+
+// CURRRICULO EXPERIENCIAS
+// CURRRICULO EXPERIENCIAS
+// CURRRICULO EXPERIENCIAS
 
 $match = $router->match();
 

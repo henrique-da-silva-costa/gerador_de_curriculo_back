@@ -89,70 +89,46 @@ class Curriculo
             $resposta = new stdClass;
             $resposta->erro = FALSE;
             $resposta->msg = NULL;
+            $resposta->id = NULL;
 
             $nome = isset($dados["nome"]) ? $dados["nome"] : NULL;
-            $descricao = isset($dados["descricao"]) ? $dados["descricao"] : NULL;
             $estado_civil = isset($dados["estado_civil"]) ? $dados["estado_civil"] : NULL;
             $telefone = isset($dados["telefone"]) ? $dados["telefone"] : NULL;
             $data_nascimento = isset($dados["data_nascimento"]) ? $dados["data_nascimento"] : NULL;
-            $empresa = isset($dados["empresa"]) ? $dados["empresa"] : NULL;
-            $cargo = isset($dados["cargo"]) ? $dados["cargo"] : NULL;
-            $responsabilidades = isset($dados["responsabilidades"]) ? $dados["responsabilidades"] : NULL;
-            $habilidades = isset($dados["habilidades"]) ? $dados["habilidades"] : NULL;
-            $data_inicio = isset($dados["data_inicio"]) ? $dados["data_inicio"] : NULL;
-            $data_fim = isset($dados["data_fim"]) ? $dados["data_fim"] : NULL;
-            $usuario_id = isset($dados["usuario_id"]) ? $dados["usuario_id"] : NULL;
             $img = isset($dados["img"]) ? $dados["img"] : NULL;
+            $usuario_id = isset($dados["usuario_id"]) ? $dados["usuario_id"] : NULL;
 
             $sql = "INSERT INTO {$this->tabela} (
             nome,
-            descricao,
             estado_civil,
             telefone,
             data_nascimento,
-            empresa,
-            cargo,
-            responsabilidades,
-            habilidades,
-            data_inicio,
-            data_fim,
             img,
             usuario_id) VALUES (
             :nome,
-            :descricao,
             :estado_civil,
             :telefone,
             :data_nascimento,
-            :empresa,
-            :cargo,
-            :responsabilidades,
-            :habilidades,
-            :data_inicio,
-            :data_fim,
             :img,
             :usuario_id
             )";
             $stmt = $this->banco->conexao->prepare($sql);
             $stmt->bindParam(":nome", $nome, PDO::PARAM_STR);
-            $stmt->bindParam(":descricao", $descricao, PDO::PARAM_STR);
             $stmt->bindParam(":estado_civil", $estado_civil, PDO::PARAM_STR);
             $stmt->bindParam(":telefone", $telefone, PDO::PARAM_STR);
             $stmt->bindParam(":data_nascimento", $data_nascimento, PDO::PARAM_STR);
-            $stmt->bindParam(":empresa", $empresa, PDO::PARAM_STR);
-            $stmt->bindParam(":cargo", $cargo, PDO::PARAM_STR);
-            $stmt->bindParam(":responsabilidades", $responsabilidades, PDO::PARAM_STR);
-            $stmt->bindParam(":habilidades", $habilidades, PDO::PARAM_STR);
-            $stmt->bindParam(":data_inicio", $data_inicio, PDO::PARAM_STR);
-            $stmt->bindParam(":data_fim", $data_fim, PDO::PARAM_STR);
             $stmt->bindParam(":img", $img, PDO::PARAM_STR);
             $stmt->bindParam(":usuario_id", $usuario_id, PDO::PARAM_INT);
             $stmt->execute();
+
+            $resposta->id = $this->banco->conexao->lastInsertId();
 
             return $resposta;
         } catch (\Throwable $th) {
             $resposta = new stdClass;
             $resposta->erro = TRUE;
             $resposta->msg = $th->getMessage();
+            $resposta->id = NULL;
 
             return $resposta;
         }
@@ -168,18 +144,11 @@ class Curriculo
 
             $id = isset($dados["id"]) ? $dados["id"] : NULL;
             $nome = isset($dados["nome"]) ? $dados["nome"] : NULL;
-            $descricao = isset($dados["descricao"]) ? $dados["descricao"] : NULL;
             $estado_civil = isset($dados["estado_civil"]) ? $dados["estado_civil"] : NULL;
             $telefone = isset($dados["telefone"]) ? $dados["telefone"] : NULL;
             $data_nascimento = isset($dados["data_nascimento"]) ? $dados["data_nascimento"] : NULL;
-            $empresa = isset($dados["empresa"]) ? $dados["empresa"] : NULL;
-            $cargo = isset($dados["cargo"]) ? $dados["cargo"] : NULL;
-            $responsabilidades = isset($dados["responsabilidades"]) ? $dados["responsabilidades"] : NULL;
-            $habilidades = isset($dados["habilidades"]) ? $dados["habilidades"] : NULL;
-            $data_inicio = isset($dados["data_inicio"]) ? $dados["data_inicio"] : NULL;
-            $data_fim = isset($dados["data_fim"]) ? $dados["data_fim"] : NULL;
-            $usuario_id = isset($dados["usuario_id"]) ? $dados["usuario_id"] : NULL;
             $img = isset($dados["img"]) ? $dados["img"] : NULL;
+            $usuario_id = isset($dados["usuario_id"]) ? $dados["usuario_id"] : NULL;
 
             if (!is_numeric($id)) {
                 return;
@@ -187,30 +156,16 @@ class Curriculo
 
             $sql = "UPDATE {$this->tabela} SET
             nome = :nome,
-            descricao = :descricao,
             estado_civil = :estado_civil,
             telefone = :telefone,
             data_nascimento = :data_nascimento,
-            empresa = :empresa,
-            cargo = :cargo,
-            responsabilidades = :responsabilidades,
-            habilidades = :habilidades,
-            data_inicio = :data_inicio,
-            data_fim = :data_fim,
             img = :img,
             usuario_id = :usuario_id WHERE id = :id";
             $stmt = $this->banco->conexao->prepare($sql);
             $stmt->bindParam(":nome", $nome, PDO::PARAM_STR);
-            $stmt->bindParam(":descricao", $descricao, PDO::PARAM_STR);
             $stmt->bindParam(":estado_civil", $estado_civil, PDO::PARAM_STR);
             $stmt->bindParam(":telefone", $telefone, PDO::PARAM_STR);
             $stmt->bindParam(":data_nascimento", $data_nascimento, PDO::PARAM_STR);
-            $stmt->bindParam(":empresa", $empresa, PDO::PARAM_STR);
-            $stmt->bindParam(":cargo", $cargo, PDO::PARAM_STR);
-            $stmt->bindParam(":responsabilidades", $responsabilidades, PDO::PARAM_STR);
-            $stmt->bindParam(":habilidades", $habilidades, PDO::PARAM_STR);
-            $stmt->bindParam(":data_inicio", $data_inicio, PDO::PARAM_STR);
-            $stmt->bindParam(":data_fim", $data_fim, PDO::PARAM_STR);
             $stmt->bindParam(":img", $img, PDO::PARAM_STR);
             $stmt->bindParam(":usuario_id", $usuario_id, PDO::PARAM_INT);
             $stmt->bindParam(":id", $id, PDO::PARAM_INT);

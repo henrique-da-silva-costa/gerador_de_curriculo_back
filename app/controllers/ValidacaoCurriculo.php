@@ -26,19 +26,19 @@ class ValidacaoCurriculo
         $dataNascimento = "";
 
         try {
-            $dataNascimento = Carbon::createFromFormat("Y-m-d", $dados["data_nascimento"]);
+            $dataNascimento = isset($dados["data_nascimento"]) ? Carbon::createFromFormat("Y-m-d", $dados["data_nascimento"]) : NULL;
         } catch (\Throwable $th) {
             return print_r(json_encode(["erro" => TRUE, "msg" => "data invalida", "campo" => "data_nascimento"]));
         }
 
         try {
-            $dataInico = Carbon::createFromFormat("Y-m-d", $dados["data_inicio"]);
+            $dataInico = isset($dados["data_inicio"]) ? Carbon::createFromFormat("Y-m-d", $dados["data_inicio"]) : NULL;
         } catch (\Throwable $th) {
             return print_r(json_encode(["erro" => TRUE, "msg" => "data invalida", "campo" => "data_inicio"]));
         }
 
         try {
-            $dataFim = Carbon::createFromFormat("Y-m-d", $dados["data_fim"]);
+            $dataFim = isset($dados["data_fim"]) ? Carbon::createFromFormat("Y-m-d", $dados["data_fim"]) : NULL;
         } catch (\Throwable $th) {
             return print_r(json_encode(["erro" => TRUE, "msg" => "data invalida", "campo" => "data_fim"]));
         }
@@ -58,8 +58,10 @@ class ValidacaoCurriculo
                 }
             }
 
-            if ($dataInico->gt($dataFim)) {
-                return print_r(json_encode(["erro" => TRUE, "msg" => "A data de inicio não pode ser maior que a data e fdinal", "campo" => "data_inicio"]));
+            if ($dataInico) {
+                if ($dataInico->gt($dataFim)) {
+                    return print_r(json_encode(["erro" => TRUE, "msg" => "A data de inicio não pode ser maior que a data e fdinal", "campo" => "data_inicio"]));
+                }
             }
 
             // if ($dataFim < $dataInico->addDays(90)) {

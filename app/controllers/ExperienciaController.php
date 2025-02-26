@@ -2,42 +2,36 @@
 
 namespace app\controllers;
 
-use app\models\Curriculo;
+use app\models\Experiencia;
 
-class CurriculoController
+class ExperienciaController
 {
-    private $curriculo;
+    private $experiencia;
     private $request;
 
     public function __construct()
     {
-        $this->curriculo = new Curriculo;
+        $this->experiencia = new Experiencia();
         $this->request = $_REQUEST;
     }
 
-    public function pegarTodos()
+    public function pegarTodosPorCurriculoId($id)
     {
-        $usuarios = $this->curriculo->pegarTodos();
-        return print_r(json_encode($usuarios));
-    }
-
-    public function pegarPorCurriculoPorUsuarioId($usuario_id)
-    {
-        if (!is_numeric($usuario_id)) {
+        if (!is_numeric($id)) {
             return print_r(json_encode(["erro" => TRUE, "msg" => "Curriculo não encontrado"]));
         }
 
-        $usuario = $this->curriculo->pegarPorCurriculoPorUsuarioId($usuario_id);
+        $usuario = $this->experiencia->pegarTodosPorCurriculoId($id);
         return print_r(json_encode($usuario));
     }
 
     public function pegarPorId($id)
     {
         if (!is_numeric($id)) {
-            return print_r(json_encode(["erro" => TRUE, "msg" => "Curriculo não encontrado"]));
+            return print_r(json_encode(["erro" => TRUE, "msg" => "Experiencia não encontrada"]));
         }
 
-        $usuario = $this->curriculo->pegarPorId($id);
+        $usuario = $this->experiencia->pegarPorId($id);
         return print_r(json_encode($usuario));
     }
 
@@ -59,12 +53,12 @@ class CurriculoController
             $this->request["img"] = $imgCaminho["msg"];
         }
 
-        $cadastrar = $this->curriculo->cadastrar($this->request);
+        $cadastrar = $this->experiencia->cadastrar($this->request);
         if ($cadastrar->erro) {
             return print_r(json_encode(["erro" => TRUE, "msg" => $cadastrar->msg]));
         }
 
-        return print_r(json_encode(["erro" => FALSE, "msg" => "cadastro realizado com sucesso", "id" => $cadastrar->id]));
+        return print_r(json_encode(["erro" => FALSE, "msg" => "cadastro realizado com sucesso"]));
     }
 
     public function editar()
@@ -90,7 +84,7 @@ class CurriculoController
             return print_r(json_encode(["erro" => TRUE, "msg" => "Usuario não encontrado"]));
         }
 
-        $editar = $this->curriculo->editar($this->request);
+        $editar = $this->experiencia->editar($this->request);
         if ($editar->erro) {
             return print_r(json_encode(["erro" => TRUE, "msg" => $editar->msg]));
         }
@@ -106,7 +100,7 @@ class CurriculoController
             return print_r(json_encode(["erro" => TRUE, "msg" => "Usuario não encontrado"]));
         }
 
-        $excluir = $this->curriculo->excluir($this->request);
+        $excluir = $this->experiencia->excluir($this->request);
         if ($excluir->erro) {
             return print_r(json_encode(["erro" => TRUE, "msg" => $excluir->msg]));
         }
