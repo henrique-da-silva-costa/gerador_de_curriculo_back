@@ -24,19 +24,19 @@ class ValidacaoImagem
             $tiposPermitidos = ["jpg", "jpeg", "png", "gif"];
 
             if ($nomeArquivo && !in_array($tipoArquivo, $tiposPermitidos)) {
-                return ["erro" => TRUE, "msg" => "Apenas arquivos JPG, JPEG, PNG e GIF são permitidos."];
+                return ["erro" => TRUE, "msg" => "Apenas arquivos JPG, JPEG, PNG e GIF são permitidos.", "campo" => "img"];
             }
 
             if ($imgCurriculo) {
                 // Verifica o tamanho do arquivo (limite de 50kb)
                 if ($arquivo["size"] > 2 * 50 * 1024) {
-                    return ["erro" => TRUE, "msg" => "Erro: O arquivo é muito grande (limite de 50KB)."];
+                    return ["erro" => TRUE, "msg" => "Erro: O arquivo é muito grande (limite de 50KB).", "campo" => "img"];
                 }
             }
 
             // Verifica o tamanho do arquivo (limite de 2MB)s
             if ($arquivo["size"] > 2 * 1024 * 1024) {
-                return ["erro" => TRUE, "msg" => "Erro: O arquivo é muito grande (limite de 2MB)."];
+                return ["erro" => TRUE, "msg" => "Erro: O arquivo é muito grande (limite de 2MB).", "campo" => "img"];
             }
 
             // Move o arquivo para o diretório de destino
@@ -52,7 +52,7 @@ class ValidacaoImagem
 
                 return ["erro" => FALSE, "msg" => $caminhoFinal];
             } else {
-                return ["erro" => TRUE, "msg" => "Erro ao enviar o arquivo."];
+                return ["erro" => TRUE, "msg" => "Erro ao enviar o arquivo.", "campo" => "img"];
             }
         } else {
             return ["erro" => FALSE, "msg" => NULL];
