@@ -19,15 +19,15 @@ class Banco
 
     public function __construct()
     {
-        $this->host = "localhost";
-        $this->dbname = "usuario";
-        $this->usuario = "root";
-        $this->senha = "";
-
         // $this->host = "localhost";
-        // $this->dbname = "u490439394_curriculo";
-        // $this->usuario = "u490439394_curriculo";
-        // $this->senha = "Henrique1999@";
+        // $this->dbname = "usuario";
+        // $this->usuario = "root";
+        // $this->senha = "";
+
+        $this->host = "localhost";
+        $this->dbname = "u490439394_curriculo";
+        $this->usuario = "u490439394_curriculo";
+        $this->senha = "Henrique1999@";
     }
 
     public function conectar()
