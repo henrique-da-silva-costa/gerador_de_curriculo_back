@@ -45,7 +45,7 @@ class ValidacaoCurriculo
 
         foreach ($dados as $index => $dado) {
             if (strlen($dado) < 1 && $index != "data_fim") {
-                return print_r(json_encode(["erro" => TRUE, "msg" => "campo obrigatório", "campo" => $index]));
+                return print_r(json_encode(["erro" => TRUE]));
             }
 
             if ($index == "data_nascimento") {
@@ -62,13 +62,19 @@ class ValidacaoCurriculo
                 if ($dataInico->gt($dataFim)) {
                     return print_r(json_encode(["erro" => TRUE, "msg" => "A data de inicio não pode ser maior que a data e fdinal", "campo" => "data_inicio"]));
                 }
+
+                $dataValida = $dataInico->diffInYears($dataNascimento);
+
+                if ($dataValida < 14) {
+                    return print_r(json_encode(["erro" => TRUE, "msg" => "Essa data não corresponde com a idade da pessoa", "campo" => $index]));
+                }
             }
 
             // if ($dataFim < $dataInico->addDays(90)) {
             //     return print_r(json_encode(["erro" => TRUE, "msg" => "A data de inicio não pode ser menor que 3 meses", "campo" => "data_inicio"]));
             // }
 
-            if (strlen($dado) > 255 && $index != "img") {
+            if (strlen($dado) > 255 && $index != "img" && $index != "descricao") {
                 return print_r(json_encode(["erro" => TRUE, "msg" => "limite maximo de caracteres 255"]));
             }
         }

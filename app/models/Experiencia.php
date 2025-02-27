@@ -20,7 +20,7 @@ class Experiencia
         $this->tabela = Tabelas::EXPERIENCIAS;
     }
 
-    public function pegarTodosPorCurriculoId($curriculo_id)
+    public function pegarTodosPorCurriculoIdPaginacao($curriculo_id)
     {
         try {
             $this->banco->conectar();
@@ -51,6 +51,21 @@ class Experiencia
         }
     }
 
+    public function pegarTodosPorCurriculoId($curriculo_id)
+    {
+        try {
+            $this->banco->conectar();
+
+            $stmt = $this->banco->conexao->prepare("SELECT * FROM {$this->tabela} WHERE curriculo_id = :curriculo_id ORDER BY id DESC");
+            $stmt->bindParam(':curriculo_id', $curriculo_id, PDO::PARAM_INT);
+            $stmt->execute();
+            $dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $dados;
+        } catch (\Throwable $th) {
+            return [];
+        }
+    }
+
     public function pegarPorId($id)
     {
         try {
@@ -66,23 +81,6 @@ class Experiencia
             return NULL;
         }
     }
-
-    // public function pegarTodos()
-    // {
-    //     try {
-    //         $this->banco->conectar();
-
-    //         $sql = "SELECT * FROM curriculo LEFT JOIN {$this->tabela} ON curriculo.id = {$this->tabela}.curriculo_id WHERE curriculo_id = 23";
-    //         $stmt = $this->banco->conexao->prepare($sql);
-    //         $stmt->execute();
-    //         $dados = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    //         return $dados;
-    //     } catch (\Throwable $th) {
-    //         print_r($th->getMessage());
-    //         return [];
-    //     }
-    // }
 
     public function cadastrar($dados)
     {

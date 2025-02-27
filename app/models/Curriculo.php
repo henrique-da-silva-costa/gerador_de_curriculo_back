@@ -92,32 +92,40 @@ class Curriculo
             $resposta->id = NULL;
 
             $nome = isset($dados["nome"]) ? $dados["nome"] : NULL;
+            $sexo = isset($dados["sexo"]) ? $dados["sexo"] : NULL;
             $estado_civil = isset($dados["estado_civil"]) ? $dados["estado_civil"] : NULL;
             $telefone = isset($dados["telefone"]) ? $dados["telefone"] : NULL;
             $data_nascimento = isset($dados["data_nascimento"]) ? $dados["data_nascimento"] : NULL;
             $img = isset($dados["img"]) ? $dados["img"] : NULL;
+            $descricao = isset($dados["descricao"]) ? $dados["descricao"] : NULL;
             $usuario_id = isset($dados["usuario_id"]) ? $dados["usuario_id"] : NULL;
 
             $sql = "INSERT INTO {$this->tabela} (
             nome,
+            sexo,
             estado_civil,
             telefone,
             data_nascimento,
             img,
+            descricao,
             usuario_id) VALUES (
             :nome,
+            :sexo,
             :estado_civil,
             :telefone,
             :data_nascimento,
             :img,
+            :descricao,
             :usuario_id
             )";
             $stmt = $this->banco->conexao->prepare($sql);
             $stmt->bindParam(":nome", $nome, PDO::PARAM_STR);
+            $stmt->bindParam(":sexo", $sexo, PDO::PARAM_STR);
             $stmt->bindParam(":estado_civil", $estado_civil, PDO::PARAM_STR);
             $stmt->bindParam(":telefone", $telefone, PDO::PARAM_STR);
             $stmt->bindParam(":data_nascimento", $data_nascimento, PDO::PARAM_STR);
             $stmt->bindParam(":img", $img, PDO::PARAM_STR);
+            $stmt->bindParam(":descricao", $descricao, PDO::PARAM_STR);
             $stmt->bindParam(":usuario_id", $usuario_id, PDO::PARAM_INT);
             $stmt->execute();
 
@@ -144,10 +152,12 @@ class Curriculo
 
             $id = isset($dados["id"]) ? $dados["id"] : NULL;
             $nome = isset($dados["nome"]) ? $dados["nome"] : NULL;
+            $sexo = isset($dados["sexo"]) ? $dados["sexo"] : NULL;
             $estado_civil = isset($dados["estado_civil"]) ? $dados["estado_civil"] : NULL;
             $telefone = isset($dados["telefone"]) ? $dados["telefone"] : NULL;
             $data_nascimento = isset($dados["data_nascimento"]) ? $dados["data_nascimento"] : NULL;
             $img = isset($dados["img"]) ? $dados["img"] : NULL;
+            $descricao = isset($dados["descricao"]) ? $dados["descricao"] : NULL;
             $usuario_id = isset($dados["usuario_id"]) ? $dados["usuario_id"] : NULL;
 
             if (!is_numeric($id)) {
@@ -156,17 +166,21 @@ class Curriculo
 
             $sql = "UPDATE {$this->tabela} SET
             nome = :nome,
+            sexo = :sexo,
             estado_civil = :estado_civil,
             telefone = :telefone,
             data_nascimento = :data_nascimento,
             img = :img,
+            descricao = :descricao,
             usuario_id = :usuario_id WHERE id = :id";
             $stmt = $this->banco->conexao->prepare($sql);
             $stmt->bindParam(":nome", $nome, PDO::PARAM_STR);
+            $stmt->bindParam(":sexo", $sexo, PDO::PARAM_STR);
             $stmt->bindParam(":estado_civil", $estado_civil, PDO::PARAM_STR);
             $stmt->bindParam(":telefone", $telefone, PDO::PARAM_STR);
             $stmt->bindParam(":data_nascimento", $data_nascimento, PDO::PARAM_STR);
             $stmt->bindParam(":img", $img, PDO::PARAM_STR);
+            $stmt->bindParam(":descricao", $descricao, PDO::PARAM_STR);
             $stmt->bindParam(":usuario_id", $usuario_id, PDO::PARAM_INT);
             $stmt->bindParam(":id", $id, PDO::PARAM_INT);
             $stmt->execute();

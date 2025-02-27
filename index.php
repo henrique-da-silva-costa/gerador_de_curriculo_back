@@ -96,6 +96,12 @@ $router->map("OPTIONS", "/excluircurriculo", function () {
 //     return $experiencia->pegarTodos();
 // });
 
+$router->map("GET", "/experienciaspaginacao/[i:id]", function ($id) {
+    $experiencia = new ExperienciaController();
+
+    return $experiencia->pegarTodosPorCurriculoIdPaginacao($id);
+});
+
 $router->map("GET", "/experiencias/[i:id]", function ($id) {
     $experiencia = new ExperienciaController();
 

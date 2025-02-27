@@ -15,6 +15,16 @@ class ExperienciaController
         $this->request = $_REQUEST;
     }
 
+    public function pegarTodosPorCurriculoIdPaginacao($id)
+    {
+        if (!is_numeric($id)) {
+            return print_r(json_encode(["erro" => TRUE, "msg" => "Curriculo não encontrado"]));
+        }
+
+        $usuario = $this->experiencia->pegarTodosPorCurriculoIdPaginacao($id);
+        return print_r(json_encode($usuario));
+    }
+
     public function pegarTodosPorCurriculoId($id)
     {
         if (!is_numeric($id)) {
