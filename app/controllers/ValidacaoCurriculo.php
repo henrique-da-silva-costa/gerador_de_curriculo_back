@@ -21,7 +21,7 @@ class ValidacaoCurriculo
             return print_r(json_encode(["erro" => TRUE, "msg" => "Tipo de dado invalido"]));
         }
 
-        $dataInico = "";
+        $dataInicio = "";
         $dataFim = "";
         $dataNascimento = "";
 
@@ -32,7 +32,7 @@ class ValidacaoCurriculo
         }
 
         try {
-            $dataInico = isset($dados["data_inicio"]) ? Carbon::createFromFormat("Y-m-d", $dados["data_inicio"]) : NULL;
+            $dataInicio = isset($dados["data_inicio"]) ? Carbon::createFromFormat("Y-m-d", $dados["data_inicio"]) : NULL;
         } catch (\Throwable $th) {
             return print_r(json_encode(["erro" => TRUE, "msg" => "data invalida", "campo" => "data_inicio"]));
         }
@@ -58,19 +58,17 @@ class ValidacaoCurriculo
                 }
             }
 
-            if ($dataInico) {
-                if ($dataInico->gt($dataFim)) {
+            if ($dataInicio) {
+                if ($dataInicio->gt($dataFim)) {
                     return print_r(json_encode(["erro" => TRUE, "msg" => "A data de inicio não pode ser maior que a data e fdinal", "campo" => "data_inicio"]));
                 }
 
-                $dataValida = $dataInico->diffInYears($dataNascimento);
-
-                if ($dataValida < 14) {
-                    return print_r(json_encode(["erro" => TRUE, "msg" => "Essa data não corresponde com a idade da pessoa", "campo" => $index]));
+                if (!$dataInicio->eq($dataNascimento->copy()->addYears(14))) {
+                    return print_r(json_encode(["erro" => TRUE, "msg" => "A data de inicio não corresponde com a dta de nascimento", "campo" => "data_inicio"]));
                 }
             }
 
-            // if ($dataFim < $dataInico->addDays(90)) {
+            // if ($dataFim < $dataInicio->addDays(90)) {
             //     return print_r(json_encode(["erro" => TRUE, "msg" => "A data de inicio não pode ser menor que 3 meses", "campo" => "data_inicio"]));
             // }
 
