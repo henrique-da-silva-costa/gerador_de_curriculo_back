@@ -111,8 +111,8 @@ class CurriculoController
 
         $existeCurriculos = $this->experiencia->pegarTodosPorCurriculoId($id);
 
-        if ($existeCurriculos) {
-            return print_r(json_encode($existeCurriculos));
+        if (count($existeCurriculos) > 0) {
+            return print_r(json_encode(["erro" => TRUE, "msg" => "Não pode excluir currículo com experiências cadastradas"]));
         }
 
         $excluir = $this->curriculo->excluir($this->request);
