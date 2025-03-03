@@ -3,15 +3,18 @@
 namespace app\controllers;
 
 use app\models\Curriculo;
+use app\models\Experiencia;
 
 class CurriculoController
 {
     private $curriculo;
     private $request;
+    private $experiencia;
 
     public function __construct()
     {
         $this->curriculo = new Curriculo;
+        $this->experiencia = new Experiencia;
         $this->request = $_REQUEST;
     }
 
@@ -104,6 +107,12 @@ class CurriculoController
 
         if (!is_numeric($id)) {
             return print_r(json_encode(["erro" => TRUE, "msg" => "Usuario não encontrado"]));
+        }
+
+        $existeCurriculos = $this->experiencia->pegarTodosPorCurriculoId($id);
+
+        if ($existeCurriculos) {
+            return print_r(json_encode($existeCurriculos));
         }
 
         $excluir = $this->curriculo->excluir($this->request);
