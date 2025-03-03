@@ -19,15 +19,15 @@ class Banco
 
     public function __construct()
     {
-        $this->host = "localhost";
-        $this->dbname = "usuario";
-        $this->usuario = "root";
-        $this->senha = "";
-
         // $this->host = "localhost";
-        // $this->dbname = "u490439394_curriculo";
-        // $this->usuario = "u490439394_curriculo";
-        // $this->senha = "Henrique1999@";
+        // $this->dbname = "usuario";
+        // $this->usuario = "root";
+        // $this->senha = "";
+
+        $this->host = "localhost";
+        $this->dbname = "u490439394_curriculo";
+        $this->usuario = "u490439394_curriculo";
+        $this->senha = "Henrique1999@";
     }
 
     public function conectar()
@@ -35,7 +35,7 @@ class Banco
         try {
             $this->conexao = new PDO("mysql:host={$this->host};dbname={$this->dbname}", $this->usuario, $this->senha);
         } catch (\Throwable $th) {
-            print_r($th->getMessage());
+            return print_r(json_encode(["erro" => TRUE, "falha na conexão"]));
         }
     }
 }
