@@ -85,6 +85,10 @@ class ValidacaoCurriculo
             if (strlen($dado) > 255 && $index != "img" && $index != "descricao") {
                 return print_r(json_encode(["erro" => TRUE, "msg" => "limite maximo de caracteres 255"]));
             }
+
+            if ($index != "descricao" || $index != "responsabilidades" && strlen($dado) > 4000) {
+                return print_r(json_encode(["erro" => TRUE, "msg" => "limite maximo de caracteres 4000"]));
+            }
         }
     }
 }
