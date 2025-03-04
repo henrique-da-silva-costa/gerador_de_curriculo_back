@@ -75,6 +75,10 @@ class CurriculoController
         $img = isset($_FILES["img"]) ? $_FILES["img"] : NULL;
         $id = isset($this->request["id"]) ? $this->request["id"] : NULL;
 
+        if (!is_numeric($id)) {
+            return print_r(json_encode(["erro" => TRUE, "msg" => "Usuario não encontrado"]));
+        }
+
         if (ValidacaoCurriculo::validar($this->request)) {
             return;
         }
@@ -87,10 +91,6 @@ class CurriculoController
 
         foreach ($this->request as $valor) {
             $this->request["img"] = $imgCaminho["msg"];
-        }
-
-        if (!is_numeric($id)) {
-            return print_r(json_encode(["erro" => TRUE, "msg" => "Usuario não encontrado"]));
         }
 
         $editar = $this->curriculo->editar($this->request);

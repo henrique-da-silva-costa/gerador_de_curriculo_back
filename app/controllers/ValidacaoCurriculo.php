@@ -44,10 +44,6 @@ class ValidacaoCurriculo
         }
 
         foreach ($dados as $index => $dado) {
-            // if (strlen($dado) < 1 && $index == "sexo") {
-            //     return print_r(json_encode(["erro" => TRUE, "msg" => "campo obrigatorio", "campo" => "sexo"]));
-            // }
-
             if (strlen($dado) < 1 && $index != "data_fim" && $index != "img") {
                 return print_r(json_encode(["erro" => TRUE]));
             }
