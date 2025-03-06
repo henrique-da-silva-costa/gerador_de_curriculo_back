@@ -120,7 +120,7 @@ O sistema foi projetado para ser responsivo e fácil de usar, proporcionando uma
 
 - **Banco:** Faz a conexão com o banco de dados.
 
-- ## Rotas
+## Rotas
 
 ### Rotas de Usuário
 
