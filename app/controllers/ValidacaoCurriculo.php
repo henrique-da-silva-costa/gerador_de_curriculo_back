@@ -74,7 +74,7 @@ class ValidacaoCurriculo
                 $diferencaDeAnos = $dataInicio->diffInMonths($dataFim);
 
                 if ($diferencaDeAnos < 3) {
-                    return print_r(json_encode(["erro" => TRUE, "msg" => "A data de inicio não pode ser menor que 3 meses", "campo" => "data_inicio"]));
+                    return print_r(json_encode(["erro" => TRUE, "msg" => "A data de inicio não pode ser menor que 3 meses, em relação a data final", "campo" => "data_inicio"]));
                 }
             }
 
