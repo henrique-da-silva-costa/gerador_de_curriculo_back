@@ -58,7 +58,7 @@ class ValidacaoCurriculo
                 }
             }
 
-            if ($dataInicio) {
+            if ($dataInicio && $dataNascimento) {
                 if ($dataInicio->gt($dataFim)) {
                     return print_r(json_encode(["erro" => TRUE, "msg" => "A data de inicio não pode ser maior que a data final", "campo" => "data_inicio"]));
                 }
